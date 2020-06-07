@@ -73,11 +73,16 @@ func setupHandler(cfg config.Config) http.Handler {
 	router := mux.NewRouter()
 	router = router.MatcherFunc(func(r *http.Request, rm *mux.RouteMatch) bool {
 		origin := isso.FindOrigin(r)
+		// allow empty origin
+		if origin == "" {
+			return true
+		}
 		for _, allowHost := range cfg.Host {
 			if origin == allowHost {
 				return true
 			}
 		}
+		logger.Error(`setupHandler(): origin [%s] is not in allowd %+v`, origin, cfg.Host)
 		return false
 	}).Subrouter()
 
