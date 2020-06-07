@@ -21,7 +21,7 @@ func startDaemon(cfg config.Config) {
 	signal.Notify(stop, os.Interrupt)
 	signal.Notify(stop, syscall.SIGTERM)
 
-	go showProcessStatistics()
+	//go showProcessStatistics()
 
 	var httpServer *http.Server
 
